@@ -1,32 +1,36 @@
-<main class="background-image h-100">
-    <section class="ftco-section">
+<main class="h-100">
+    <section
+        class="ftco-section w-100 h-100 d-flex justify-content-center align-items-center position-absolute container-base">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Login #10</h2>
+                    <h2 class="heading-section">Welcome</h2>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center">Have an account?</h3>
-                        <form action="#" class="signin-form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" required>
+                        <form action="#" class="signin-form" [formGroup]="formGroup">
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" placeholder="Username" required
+                                    formControlName="userName">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <input id="password-field" type="password" class="form-control" placeholder="Password"
-                                    required>
+                                    formControlName="password" required>
                                 <span toggle="#password-field"
                                     class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+                            <div class="form-group mb-3">
+                                <button class="btn btn-primary form-control mb-3" *ngIf="!config" (click)="getInitialConfig()">Get Login Config</button>
+                                <button type="submit" class="form-control btn btn-primary submit px-3"[disabled]="!config" [routerLink]="'/pages/reports/1'">Sign In</button>
                             </div>
-                            <div class="form-group d-md-flex">
+                            <div class="form-group mb-3 d-md-flex">
                                 <div class="w-50">
                                     <label class="checkbox-wrap checkbox-primary">Remember Me
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" [(ngModel)]="rememberMe"
+                                            [ngModelOptions]="{standalone: true}">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -35,16 +39,11 @@
                                 </div>
                             </div>
                         </form>
-                        <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
-                        <div class="social d-flex text-center">
-                            <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span>
-                                Facebook</a>
-                            <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span>
-                                Twitter</a>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <img src="../../assets/images/bg.jpg" class="background-image" width="100%" height="100%" alt="">
 </main>
