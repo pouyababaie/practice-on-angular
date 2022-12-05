@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IHttpOptions } from './http.get.model';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,15 +8,15 @@ import { IHttpOptions } from './http.get.model';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  get(url: string, options: IHttpOptions) {
-    return this.http.get(url, options);
+  get<TD>(url: string, options?: any) {
+    return this.http.get<TD>(url, options).pipe(tap((data) => data));
   }
 
-  post(url: string, body: any, options: IHttpOptions) {
+  post(url: string, body: any, options?: any) {
     return this.http.post(url, body, options);
   }
 
-  delete(url: string, options: IHttpOptions) {
+  delete(url: string, options?: any) {
     return this.http.delete(url, options);
   }
 }

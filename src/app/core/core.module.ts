@@ -1,4 +1,5 @@
 import {
+  APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   Optional,
@@ -6,12 +7,25 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { throwIfAlreadyLoaded } from './core.module-guard';
-import { ApiService } from './services/api.service';
+import { InitialConfigService } from './services/initial-config.service';
+import {  HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+function appInitializer(config: InitialConfigService): () => Observable<any> {
+  return () => config.loadAppConfig();
+}
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule],
-  providers: [ApiService],
+  imports: [CommonModule, HttpClientModule],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      deps: [InitialConfigService],
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
