@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
+import { InitialConfigService } from './initial-config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private initialConfigService: InitialConfigService
+  ) {}
 
-  get<TD>(url: string, options?: any) {
-    return this.http.get<TD>(url, options).pipe(tap((data) => data));
+  get(url: string, options?: any) {
+    return this.http.get(url, options).pipe(tap((data) => data));
   }
 
   post(url: string, body: any, options?: any) {
