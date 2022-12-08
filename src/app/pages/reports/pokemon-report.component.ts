@@ -1,48 +1,52 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ApiService } from '@app/core/services/api.service';
-import { Product } from '@app/shared/models/product';
-import { ProductService } from '@app/shared/services/product.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-report',
   templateUrl: './pokemon-report.component.html',
   styleUrls: ['./pokemon-report.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('rowExpansionTrigger', [
-      state(
-        'void',
-        style({
-          transform: 'translateX(-10%)',
-          opacity: 0,
-        })
-      ),
-      state(
-        'active',
-        style({
-          transform: 'translateX(0)',
-          opacity: 1,
-        })
-      ),
-      transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-    ]),
-  ],
 })
 export class PokemonReportComponent {
-  products: Product[] = [];
-
-  constructor(private productService: ProductService) {}
+  pokemonName: FormControl<string> = new FormControl<string>('');
+  pokemonNameList: {
+    name: string;
+    url: string;
+  }[] = null;
+  pokmonDetail: any = [];
+  loading: boolean = true;
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.productService
-      .getProductsWithOrdersSmall()
-      .subscribe((data) => (this.products = data));
+    this.apiService
+      .get('https://pokeapi.co/api/v2/pokemon/')
+      .pipe(
+        map((data: any) => {
+          this.pokemonNameList = data.results;
+          return data;
+        })
+      )
+      .subscribe((result: any) => {});
+  }
+
+  search(event?) {
+    this.pokemonNameList = this.pokemonNameList.filter((poke) => {
+      return poke.name.includes(event.query);
+    });
+  }
+
+  getPokemonDetail(event?) {
+    this.apiService.get(event.url).subscribe((poke) => {
+      this.loading = false;
+      this.pokmonDetail.push(poke);
+    });
+  }
+
+  popPoke(id: number) {
+   
+    if (id > -1) {
+      this.pokemonNameList.splice(id);
+    }
   }
 }

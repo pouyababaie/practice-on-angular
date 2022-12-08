@@ -2,5 +2,5 @@
   "userName": "pouya",
   "password": "123456",
   "emailAddress": "test@gmail.com",
-  "baseApiEndPoint": "https://pokeapi.co/api/v2/"
+  "baseApiEndPoint": "https://pokeapi.co/api/v2/pokemon/"
 }

@@ -6,6 +6,8 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { RatingModule } from 'primeng/rating';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 const component = [];
 const modules = [
   HttpClientModule,
@@ -15,6 +17,7 @@ const modules = [
   ButtonModule,
   RippleModule,
   RatingModule,
+  AutoCompleteModule,
 ];
 
 @NgModule({
